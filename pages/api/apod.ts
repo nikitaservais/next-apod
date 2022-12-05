@@ -28,6 +28,7 @@ export function fetchAPOD(): Promise<APODResponse> {
   return fetch(`https://api.nasa.gov/planetary/apod?api_key=${api_key}`)
     .then((res) => res.json())
     .then((data) => {
+      data.media_type = data.media_type as MEDIA_TYPES
       return data
     })
 }

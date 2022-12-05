@@ -7,15 +7,15 @@ function RenderMedia({
                      }: { mediaType: MEDIA_TYPES, url: string }) {
   switch (mediaType) {
     case MEDIA_TYPES.IMAGE:
-      return <Image alt="new" src={url} width={200} height={200}/>
+      return (<Image alt="new" src={url} width={200} height={200}/>)
     case MEDIA_TYPES.VIDEO:
-      return <iframe src={url} width={200} height={200} allowFullScreen={true}/>
+      return (
+        <iframe src={url} width={200} height={200} allowFullScreen={true}/>)
   }
 }
 
 function APO({title, description, media, mediaType}: {
-  title: string,
-  description: string, media: string, mediaType: MEDIA_TYPES
+  title: string, description: string, media: string, mediaType: MEDIA_TYPES
 }) {
   return (
     <div>
