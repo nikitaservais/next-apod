@@ -6,15 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@vercel/analytics": "^0.1.5",
     "next": "^13.0.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-infinite-scroll-component": "^6.1.0"
   },
   "devDependencies": {
+    "@types/luxon": "^3.1.0",
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
@@ -25,8 +29,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-prettier": "^4.2.1",
+    "luxon": "^3.1.1",
     "postcss": "^8.4.19",
-    "prettier": "^2.8.0",
+    "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.0",
     "tailwindcss": "^3.2.4"
   }
