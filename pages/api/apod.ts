@@ -33,7 +33,7 @@ export function fetchAPOD(): Promise<APODResponse> {
     })
 }
 
-export default function handler(req, res) {
+export default function handler({req, res}: { req: any, res: any }) {
   // fetch APOD data from NASA API
   fetchAPOD().then((data) => {
     res.status(200).json(data)

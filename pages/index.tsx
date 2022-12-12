@@ -18,10 +18,17 @@ function APO({title, description, media, mediaType}: {
   title: string, description: string, media: string, mediaType: MEDIA_TYPES
 }) {
   return (
-    <div>
-      <div>{title}</div>
-      <RenderMedia mediaType={mediaType} url={media}/>
-      <div>{description}</div>
+    <div className="m-auto p-10 max-w-[600px]">
+      <div>
+        <div
+          className="h-[400px] bg-center bg-cover rounded"
+          style={{backgroundImage: `url(${media})`}}>
+          <div
+            className=" p-2 text-white">{title}</div>
+          <p
+            className="px-10 py-2 text-gray-300">{description}</p>
+        </div>
+      </div>
     </div>
   )
 }
