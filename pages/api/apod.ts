@@ -18,7 +18,11 @@ export type APODResponse = {
   hdurl: string;
 };
 
-function fetchAPODOfDate({ date }: { date: DateTime }): Promise<APODResponse> {
+export function fetchAPODOfDate({
+  date,
+}: {
+  date: DateTime;
+}): Promise<APODResponse> {
   return fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date.toISODate()}`
   )
@@ -49,7 +53,6 @@ export function fetchAPOFromTo({
   from: DateTime;
   to: DateTime;
 }): Promise<APODResponse[]> {
-  console.log(from.toISODate(), to.toISODate());
   return fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${api_key}&start_date=${to.toISODate()}&end_date=${from.toISODate()}`
   )

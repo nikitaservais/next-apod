@@ -7,6 +7,7 @@ import {
 } from "./api/apod";
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useRouter } from "next/navigation";
 
 function RenderMedia({
   mediaType,
@@ -66,7 +67,7 @@ function APO({
 function ApoList({ apos }: { apos: APODResponse[] }) {
   const [items, setItems] = useState(apos);
   const [hasMore, setHasMore] = useState(true);
-
+  const route = useRouter();
   const getMoreApos = async () => {
     const newApos = await fetchNextAPOs({
       date: items[items.length - 1].date,
@@ -85,7 +86,7 @@ function ApoList({ apos }: { apos: APODResponse[] }) {
         endMessage={<h4>Nothing more to show</h4>}
       >
         {items.map((data) => (
-          <div key={data.date}>
+          <div key={data.date} onClick={() => route.push(`/apo/${data.date}`)}>
             <APO
               title={data.title}
               media={data.url}
