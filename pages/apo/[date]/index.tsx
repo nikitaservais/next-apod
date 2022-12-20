@@ -43,8 +43,7 @@ export async function getStaticPaths() {
 }
 
 // `getStaticPaths` requires using `getStaticProps`
-// @ts-ignore
-export async function getStaticProps(context) {
+export async function getStaticProps(context: { params: { date: string } }) {
   const apod = await fetchAPODOfDate({
     date: DateTime.fromISO(context.params.date),
   });
