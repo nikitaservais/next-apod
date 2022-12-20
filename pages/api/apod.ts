@@ -38,7 +38,7 @@ export function fetchAPOD(): Promise<APODResponse> {
 }
 
 export function fetchAPODs(): Promise<APODResponse[]> {
-  const today = DateTime.utc();
+  const today = DateTime.now();
   return fetchAPOFromTo({ from: today, to: today.minus({ days: 10 }) });
 }
 

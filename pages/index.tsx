@@ -39,13 +39,25 @@ function APO({
   return (
     <div className="m-auto max-w-[600px] p-10">
       <div>
-        <div
-          className="h-[400px] rounded bg-cover bg-center"
-          style={{ backgroundImage: `url(${media})` }}
-        >
-          <div className=" p-2 text-white">{title}</div>
-          <div className="p-2 text-white">{date}</div>
-        </div>
+        {mediaType === MEDIA_TYPES.IMAGE ? (
+          <div
+            className="h-[400px] rounded bg-cover bg-center"
+            style={{ backgroundImage: `url(${media})` }}
+          >
+            <div className="p-2 text-white">{title}</div>
+            <div className="p-2 text-white">{date}</div>
+          </div>
+        ) : (
+          <div className="h-[400px] rounded bg-cover bg-center">
+            <div className="p-2 text-white">{title}</div>
+            <div className="p-2 text-white">{date}</div>
+            <iframe
+              className="h-full w-full"
+              src={media}
+              allowFullScreen={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
