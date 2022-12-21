@@ -6,8 +6,8 @@ import {
 } from "./api/apod";
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useRouter } from "next/navigation";
 import { DateTime } from "luxon";
+import Link from "next/link";
 
 function APO({
   title,
@@ -24,13 +24,15 @@ function APO({
     <div className="m-auto max-w-[600px] p-10">
       <div>
         {mediaType === MEDIA_TYPES.IMAGE ? (
-          <div
-            className="h-[400px] rounded bg-cover bg-center"
-            style={{ backgroundImage: `url(${media})` }}
-          >
-            <div className="p-2 text-white">{title}</div>
-            <div className="p-2 text-white">{date}</div>
-          </div>
+          <Link href={`/apo/${date}`}>
+            <div
+              className="h-[400px] rounded bg-cover bg-center"
+              style={{ backgroundImage: `url(${media})` }}
+            >
+              <div className="p-2 text-white">{title}</div>
+              <div className="p-2 text-white">{date}</div>
+            </div>
+          </Link>
         ) : (
           <div className="h-[400px] rounded bg-cover bg-center">
             <div className="p-2 text-white">{title}</div>
@@ -50,7 +52,6 @@ function APO({
 function ApoList({ apos }: { apos: APODResponse[] }) {
   const [items, setItems] = useState(apos);
   const [hasMore, setHasMore] = useState(true);
-  const route = useRouter();
   const getMoreApos = async () => {
     const newApos = await fetchNextAPOs({
       date: items[items.length - 1].date,
@@ -69,13 +70,15 @@ function ApoList({ apos }: { apos: APODResponse[] }) {
         endMessage={<h4>Nothing more to show</h4>}
       >
         {items.map((data) => (
-          <div key={data.date} onClick={() => route.push(`/apo/${data.date}`)}>
-            <APO
-              title={data.title}
-              media={data.url}
-              mediaType={data.media_type}
-              date={data.date}
-            />
+          <div key={data.date}>
+            <Link href={`/apo/${data.date}`}>
+              <APO
+                title={data.title}
+                media={data.url}
+                mediaType={data.media_type}
+                date={data.date}
+              />
+            </Link>
           </div>
         ))}
       </InfiniteScroll>

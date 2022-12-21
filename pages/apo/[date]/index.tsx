@@ -1,7 +1,7 @@
 import { APODResponse, fetchAPOOfDate } from "../../api/apod";
 import React from "react";
-import { useRouter } from "next/router";
 import { DateTime } from "luxon";
+import Link from "next/link";
 
 export async function getStaticPaths() {
   // generate list of 10 dates in format YYYY-MM-DD
@@ -51,10 +51,11 @@ function APOD({
   date: string;
   description: string;
 }) {
-  const route = useRouter();
   return (
-    <div className="relative p-5" onClick={() => route.push("/")}>
-      <img className="m-auto" src={url} alt={title} />
+    <div className="relative p-5">
+      <Link href={"/"}>
+        <img className="m-auto" src={url} alt={title} />
+      </Link>
       <div className="absolute top-5 left-5">
         <div className="p-2 text-xl text-gray-200">{title}</div>
         <div className="p-2 text-gray-400">{date}</div>
