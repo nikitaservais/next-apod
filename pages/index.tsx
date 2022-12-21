@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   APODResponse,
   fetchAPODs,
@@ -8,23 +7,7 @@ import {
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouter } from "next/navigation";
-
-function RenderMedia({
-  mediaType,
-  url,
-}: {
-  mediaType: MEDIA_TYPES;
-  url: string;
-}) {
-  switch (mediaType) {
-    case MEDIA_TYPES.IMAGE:
-      return <Image alt="new" src={url} width={200} height={200} />;
-    case MEDIA_TYPES.VIDEO:
-      return (
-        <iframe src={url} width={200} height={200} allowFullScreen={true} />
-      );
-  }
-}
+import { DateTime } from "luxon";
 
 function APO({
   title,
@@ -101,6 +84,7 @@ function ApoList({ apos }: { apos: APODResponse[] }) {
 }
 
 export async function getStaticProps() {
+  console.log("getStaticProps", DateTime.now().toMillis());
   const apos = await fetchAPODs();
   return {
     props: {
@@ -110,5 +94,7 @@ export async function getStaticProps() {
 }
 
 export default function Home({ apos }: { apos: APODResponse[] }) {
+  // create state for apos
+  console.log("Home", DateTime.now().toMillis());
   return <ApoList apos={apos} />;
 }

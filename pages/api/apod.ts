@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { DateTime } from "luxon";
+import { NextApiResponse } from "next";
 
 const api_key = process.env.APOD_API_KEY;
 
@@ -18,11 +19,18 @@ export type APODResponse = {
   hdurl: string;
 };
 
-export function fetchAPODOfDate({
+export const aposCache: APODResponse[] = [];
+
+export function fetchAPOOfDate({
   date,
 }: {
   date: DateTime;
 }): Promise<APODResponse> {
+  const cacheApo = aposCache.find((apod) => apod.date === date.toISODate());
+  if (cacheApo) {
+    console.log("cache hit apo of date", date.toISODate());
+    return Promise.resolve(cacheApo);
+  }
   return fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date.toISODate()}`
   )
@@ -42,6 +50,12 @@ export function fetchAPOD(): Promise<APODResponse> {
 }
 
 export function fetchAPODs(): Promise<APODResponse[]> {
+  if (aposCache.length > 0) {
+    console.log("cache hit", DateTime.now().toMillis());
+    return Promise.resolve(aposCache);
+  }
+  console.log("cache missed", DateTime.now().toMillis());
+
   const today = DateTime.now();
   return fetchAPOFromTo({ from: today, to: today.minus({ days: 10 }) });
 }
@@ -58,7 +72,9 @@ export function fetchAPOFromTo({
   )
     .then((res) => res.json())
     .then((data) => {
-      return data.reverse();
+      const reversedData = data.reverse();
+      aposCache.push(...reversedData);
+      return reversedData;
     });
 }
 
@@ -76,7 +92,7 @@ export function fetchNextAPOs({
   });
 }
 
-export default function handler({ req, res }: { req: any; res: any }) {
+export default function handler({ res }: { res: NextApiResponse }) {
   // fetch APOD data from NASA API
   fetchAPOD().then((data) => {
     res.status(200).json(data);
