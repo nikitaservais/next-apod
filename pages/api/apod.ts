@@ -50,7 +50,10 @@ export function fetchAPOD(): Promise<APODResponse> {
 }
 
 export function fetchAPODs(): Promise<APODResponse[]> {
-  if (aposCache.length > 0) {
+  if (
+    aposCache.length > 0 &&
+    aposCache.find((apod) => apod.date === DateTime.now().toISODate())
+  ) {
     console.log("cache hit", DateTime.now().toMillis());
     return Promise.resolve(aposCache);
   }
