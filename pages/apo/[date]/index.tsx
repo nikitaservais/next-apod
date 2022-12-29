@@ -5,8 +5,10 @@ import Link from "next/link";
 
 export async function getStaticPaths() {
   // generate list of 10 dates in format YYYY-MM-DD
-  const dates = Array.from({ length: 30 }, (_, i) => {
-    return DateTime.now().minus({ days: i }).toFormat("yyyy-MM-dd");
+  const dates = Array.from({ length: 100 }, (_, i) => {
+    return DateTime.now()
+      .minus({ days: i + 1 })
+      .toFormat("yyyy-MM-dd");
   });
   const paths = dates.map((date) => ({
     params: { date },
@@ -17,14 +19,12 @@ export async function getStaticPaths() {
   };
 }
 
-// `getStaticPaths` requires using `getStaticProps`
 export async function getStaticProps(context: { params: { date: string } }) {
   const apod = await fetchAPOOfDate({
     date: DateTime.fromISO(context.params.date),
   });
 
   return {
-    // Passed to the page component as props
     props: { apod },
   };
 }
