@@ -3,11 +3,11 @@ import {
   fetchAPODs,
   fetchNextAPOs,
   MEDIA_TYPES,
-} from "./api/apod";
-import React, { useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { DateTime } from "luxon";
-import Link from "next/link";
+} from '../services/apod'
+import React, { useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { DateTime } from 'luxon'
+import Link from 'next/link'
 
 function APO({
   title,
@@ -15,10 +15,10 @@ function APO({
   mediaType,
   date,
 }: {
-  title: string;
-  media: string;
-  mediaType: MEDIA_TYPES;
-  date: string;
+  title: string
+  media: string
+  mediaType: MEDIA_TYPES
+  date: string
 }) {
   return (
     <div className="m-auto max-w-[600px] p-10">
@@ -46,20 +46,20 @@ function APO({
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function ApoList({ apos }: { apos: APODResponse[] }) {
-  const [items, setItems] = useState(apos);
-  const [hasMore, setHasMore] = useState(true);
+  const [items, setItems] = useState(apos)
+  const [hasMore, setHasMore] = useState(true)
   const getMoreApos = async () => {
     const newApos = await fetchNextAPOs({
       date: items[items.length - 1].date,
       count: 10,
-    });
-    setItems([...items, ...newApos]);
-    setHasMore(newApos.length > 0);
-  };
+    })
+    setItems([...items, ...newApos])
+    setHasMore(newApos.length > 0)
+  }
   return (
     <>
       <InfiniteScroll
@@ -83,22 +83,22 @@ function ApoList({ apos }: { apos: APODResponse[] }) {
         ))}
       </InfiniteScroll>
     </>
-  );
+  )
 }
 
 export async function getStaticProps() {
-  console.log("getStaticProps", DateTime.now().toMillis());
-  const apos = await fetchAPODs();
+  console.log('getStaticProps', DateTime.now().toMillis())
+  const apos = await fetchAPODs()
   return {
     props: {
       apos,
     },
     revalidate: 3600,
-  };
+  }
 }
 
 export default function Home({ apos }: { apos: APODResponse[] }) {
   // create state for apos
-  console.log("Home", DateTime.now().toMillis());
-  return <ApoList apos={apos} />;
+  console.log('Home', DateTime.now().toMillis())
+  return <ApoList apos={apos} />
 }
