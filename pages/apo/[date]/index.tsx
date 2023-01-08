@@ -6,9 +6,8 @@ import { APODResponse, fetchAPOOfDate } from '../../../services/apod'
 export async function getStaticPaths() {
   // generate list of 10 dates in format YYYY-MM-DD
   const dates = Array.from({ length: 100 }, (_, i) => {
-    return DateTime.now()
-      .minus({ days: i + 1 })
-      .toFormat('yyyy-MM-dd')
+    console.log('minus days ', i)
+    return DateTime.now().minus({ days: i }).toFormat('yyyy-MM-dd')
   })
   const paths = dates.map((date) => ({
     params: { date },

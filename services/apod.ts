@@ -17,20 +17,11 @@ export type APODResponse = {
   hdurl: string
 }
 
-export const aposCache: APODResponse[] = []
-export let lastFetchDate: DateTime = DateTime.now()
-
 export function fetchAPOOfDate({
   date,
 }: {
   date: DateTime
 }): Promise<APODResponse> {
-  lastFetchDate = date
-  const cacheApo = aposCache.find((apod) => apod.date === date.toISODate())
-  if (cacheApo) {
-    console.log('cache hit apo of date', date.toISODate())
-    return Promise.resolve(cacheApo)
-  }
   return fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date.toISODate()}`
   )
@@ -50,12 +41,6 @@ export function fetchAPOD(): Promise<APODResponse> {
 }
 
 export function fetchAPODs(): Promise<APODResponse[]> {
-  if (lastFetchDate) {
-    return fetchAPOFromTo({
-      from: lastFetchDate,
-      to: lastFetchDate.minus({ days: 10 }),
-    })
-  }
   const today = DateTime.now()
   return fetchAPOFromTo({ from: today, to: today.minus({ days: 10 }) })
 }
@@ -73,9 +58,7 @@ export function fetchAPOFromTo({
   )
     .then((res) => res.json())
     .then((data) => {
-      const reversedData = data.reverse()
-      aposCache.push(...reversedData)
-      return reversedData
+      return data.reverse()
     })
     .catch((err) => {
       console.log(err)
