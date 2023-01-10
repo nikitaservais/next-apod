@@ -24,6 +24,7 @@ export async function getStaticProps(context: { params: { date: string } }) {
 
   return {
     props: { apod },
+    revalidate: 60 * 60 * 24, // 24 hours
   }
 }
 
