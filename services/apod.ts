@@ -23,7 +23,8 @@ export function fetchAPOOfDate({
   date: DateTime
 }): Promise<APODResponse> {
   return fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date.toISODate()}`
+    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date.toISODate()}`,
+    { cache: 'force-cache' }
   )
     .then((res) => res.json())
     .then((data) => {
@@ -32,7 +33,9 @@ export function fetchAPOOfDate({
 }
 
 export function fetchAPOD(): Promise<APODResponse> {
-  return fetch(`https://api.nasa.gov/planetary/apod?api_key=${api_key}`)
+  return fetch(`https://api.nasa.gov/planetary/apod?api_key=${api_key}`, {
+    cache: 'force-cache',
+  })
     .then((res) => res.json())
     .then((data) => {
       data.media_type = data.media_type as MEDIA_TYPES
@@ -54,7 +57,8 @@ export function fetchAPOFromTo({
 }): Promise<APODResponse[]> {
   console.log('fetchAPOFromTo', from.toISODate(), to.toISODate())
   return fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&start_date=${to.toISODate()}&end_date=${from.toISODate()}`
+    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&start_date=${to.toISODate()}&end_date=${from.toISODate()}`,
+    { next: { revalidate: 1000 * 60 * 60 * 24 } }
   )
     .then((res) => res.json())
     .then((data) => {

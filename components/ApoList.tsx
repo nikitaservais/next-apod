@@ -1,13 +1,8 @@
-import {
-  APODResponse,
-  fetchAPODs,
-  fetchNextAPOs,
-  MEDIA_TYPES,
-} from '../services/apod'
+'use client'
+import { APODResponse, fetchNextAPOs, MEDIA_TYPES } from '../services/apod'
+import Link from 'next/link'
 import React, { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { DateTime } from 'luxon'
-import Link from 'next/link'
 
 function APO({
   title,
@@ -49,7 +44,7 @@ function APO({
   )
 }
 
-function ApoList({ apos }: { apos: APODResponse[] }) {
+export function ApoList({ apos }: { apos: APODResponse[] }) {
   const [items, setItems] = useState(apos)
   const [hasMore, setHasMore] = useState(true)
   const getMoreApos = async () => {
@@ -84,21 +79,4 @@ function ApoList({ apos }: { apos: APODResponse[] }) {
       </InfiniteScroll>
     </>
   )
-}
-
-export async function getStaticProps() {
-  console.log('getStaticProps', DateTime.now().toMillis())
-  const apos = await fetchAPODs()
-  return {
-    props: {
-      apos,
-    },
-    revalidate: 3600,
-  }
-}
-
-export default function Home({ apos }: { apos: APODResponse[] }) {
-  // create state for apos
-  console.log('Home', DateTime.now().toMillis())
-  return <ApoList apos={apos} />
 }

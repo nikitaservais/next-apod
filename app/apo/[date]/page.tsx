@@ -1,28 +1,16 @@
+'use client'
 import React from 'react'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
-import { APODResponse, fetchAPOOfDate } from '../../../services/apod'
+import { fetchAPOOfDate } from '../../../services/apod'
+import { useParams } from 'next/navigation'
 
-export async function getServerSideProps(context: {
-  params: { date: string }
-}) {
-  try {
-    const apod = await fetchAPOOfDate({
-      date: DateTime.fromISO(context.params.date),
-    })
+export default async function APOD() {
+  const date = useParams().date
+  const apod = await fetchAPOOfDate({
+    date: DateTime.fromISO(date),
+  })
 
-    return {
-      props: { apod },
-    }
-  } catch (error) {
-    console.error(error)
-    return {
-      notFound: true,
-    }
-  }
-}
-
-export default function APOD({ apod }: { apod: APODResponse }) {
   return (
     <div className="relative p-5">
       <Link href={'/'}>
