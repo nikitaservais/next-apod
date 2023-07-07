@@ -1,14 +1,13 @@
-'use client'
 import React from 'react'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { fetchAPOOfDate } from '../../../services/apod'
-import { useParams } from 'next/navigation'
 
-export default async function APOD() {
-  const date = useParams().date
+export const dynamicParams = true
+
+export default async function APOD({ params }: { params: { date: string } }) {
   const apod = await fetchAPOOfDate({
-    date: DateTime.fromISO(date),
+    date: DateTime.fromISO(params.date),
   })
 
   return (
