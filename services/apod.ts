@@ -57,8 +57,7 @@ export function fetchAPOFromTo({
 }): Promise<APODResponse[]> {
   console.log('fetchAPOFromTo', from.toISODate(), to.toISODate())
   return fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&start_date=${to.toISODate()}&end_date=${from.toISODate()}`,
-    { next: { revalidate: 1000 * 60 * 60 * 24 } }
+    `https://api.nasa.gov/planetary/apod?api_key=${api_key}&start_date=${to.toISODate()}&end_date=${from.toISODate()}`
   )
     .then((res) => res.json())
     .then((data) => {
