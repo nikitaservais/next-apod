@@ -32,11 +32,15 @@ function APO({
           <div className="h-[400px] rounded bg-cover bg-center">
             <div className="p-2 text-white">{title}</div>
             <div className="p-2 text-white">{date}</div>
-            <iframe
-              className="h-full w-full"
-              src={media}
-              allowFullScreen={true}
-            />
+            {media.endsWith('.mp4') ? (
+              <video className="h-full w-full" src={media} controls />
+            ) : (
+              <iframe
+                className="h-full w-full"
+                src={media}
+                allowFullScreen={true}
+              />
+            )}
           </div>
         )}
       </div>
